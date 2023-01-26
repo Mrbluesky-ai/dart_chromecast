@@ -84,19 +84,12 @@ class CastMedia {
           },
           'tracks': {
             'trackId': 10,
-            // This is an unique ID, used to reference the track
             'type': 'TEXT',
-            // Default Media Receiver currently only supports TEXT
             'trackContentId': subtitlesUrl,
-            // the URL of the VTT (enabled CORS and the correct ContentType are required)
             'trackContentType': 'text/vtt',
-            // Currently only VTT is supported
             'name': 'Dutch',
-            // a Name for humans
             'language': 'nl-NL',
-            // the language
             'subtype': 'SUBTITLES',
-            // should be SUBTITLES
           }
         }
       };
