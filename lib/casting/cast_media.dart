@@ -52,15 +52,15 @@ class CastMedia {
           'title': title,
           'subtitle': subtitle,
         },
-        subtitlesUrl == ""? 'tracks': [{
+        subtitlesUrl == ""? 'tracks': {
           'trackId': 10, // This is an unique ID, used to reference the track
           'type': 'TEXT', // Default Media Receiver currently only supports TEXT
           'trackContentId': subtitlesUrl, // the URL of the VTT (enabled CORS and the correct ContentType are required)
           'trackContentType': 'text/vtt', // Currently only VTT is supported
-          'name': 'Íslenska', // a Name for humans
-          'language': 'is-IS', // the language
+          'name': 'Dutch', // a Name for humans
+          'language': 'nl-NL', // the language
           'subtype': 'SUBTITLES' // should be SUBTITLES
-        }] : null,
+        } : null,
       }
     };
   }
