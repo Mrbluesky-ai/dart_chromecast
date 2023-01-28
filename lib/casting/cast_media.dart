@@ -1,3 +1,6 @@
+import 'cast_media_text_track_style.dart';
+import 'cast_media_track.dart';
+
 class CastMedia {
   final String? contentId;
   String? title;
@@ -7,7 +10,9 @@ class CastMedia {
   double playbackRate;
   String contentType;
   List<String>? images;
-  String subtitlesUrl;
+  List<int>? activeTrackIds;
+  List<CastMediaTrack>? tracks;
+  CastMediaTextTrackStyle textTrackStyle;
 
   CastMedia({
     this.contentId,
@@ -18,15 +23,27 @@ class CastMedia {
     this.playbackRate = 1.0,
     this.contentType = 'video/mp4',
     this.images,
-    this.subtitlesUrl = "",
+    this.activeTrackIds,
+    this.tracks,
+    required this.textTrackStyle,
   }) {
     if (null == images) {
       images = [];
     }
+    if (null == activeTrackIds) {
+      activeTrackIds = [];
+    }
+
+    if (null == tracks) {
+      tracks = [];
+    }
+
+    if (null == textTrackStyle) {
+      textTrackStyle = CastMediaTextTrackStyle();
+    }
   }
 
   Map toChromeCastMap() {
-    if (subtitlesUrl == ""){
       return {
         'type': 'LOAD',
         'autoPlay': autoPlay,
@@ -37,16 +54,8 @@ class CastMedia {
           'contentId': contentId,
           'contentType': contentType,
           'streamType': 'BUFFERED',
-          'textTrackStyle': {
-            'edgeType': 'NONE',
-            'fontScale': 1.0,
-            'fontStyle': 'NORMAL',
-            'fontFamily': 'Droid Sans',
-            'fontGenericFamily': 'SANS_SERIF',
-            'windowColor': '#00000',
-            'windowRoundedCornerRadius': 10,
-            'windowType': 'NONE',
-          },
+          'tracks': CastMediaTrack.listToChromeCastMap(tracks!),
+          "textTrackStyle": textTrackStyle.toChromeCastMap(),
           'metadata': {
             'metadataType': 0,
             'images': images?.map((image) => {'url': image}).toList(),
@@ -55,44 +64,5 @@ class CastMedia {
           },
         }
       };
-    } else {
-      return {
-        'type': 'LOAD',
-        'autoPlay': autoPlay,
-        'currentTime': position,
-        'playbackRate': playbackRate,
-        'activeTracks': [],
-        'media': {
-          'contentId': contentId,
-          'contentType': contentType,
-          'streamType': 'BUFFERED',
-          'textTrackStyle': {
-            'edgeType': 'NONE',
-            'fontScale': 1.0,
-            'fontStyle': 'NORMAL',
-            'fontFamily': 'Droid Sans',
-            'fontGenericFamily': 'SANS_SERIF',
-            'windowColor': '#00000',
-            'windowRoundedCornerRadius': 10,
-            'windowType': 'NONE',
-          },
-          'metadata': {
-            'metadataType': 0,
-            'images': images?.map((image) => {'url': image}).toList(),
-            'title': title,
-            'subtitle': subtitle,
-          },
-          'tracks': {
-            'trackId': 10,
-            'type': 'TEXT',
-            'trackContentId': subtitlesUrl,
-            'trackContentType': 'text/vtt',
-            'name': 'Dutch',
-            'language': 'nl-NL',
-            'subtype': 'SUBTITLES',
-          }
-        }
-      };
-    }
   }
 }
