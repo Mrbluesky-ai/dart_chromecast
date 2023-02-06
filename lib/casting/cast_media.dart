@@ -12,7 +12,7 @@ class CastMedia {
   List<String>? images;
   List<int>? activeTrackIds;
   List<CastMediaTrack>? tracks;
-  CastMediaTextTrackStyle textTrackStyle;
+  CastMediaTextTrackStyle? textTrackStyle;
 
   CastMedia({
     this.contentId,
@@ -25,7 +25,7 @@ class CastMedia {
     this.images,
     this.activeTrackIds,
     this.tracks,
-    required this.textTrackStyle,
+    this.textTrackStyle,
   }) {
     if (null == images) {
       images = [];
@@ -38,9 +38,6 @@ class CastMedia {
       tracks = [];
     }
 
-    if (null == textTrackStyle) {
-      textTrackStyle = CastMediaTextTrackStyle();
-    }
   }
 
   Map toChromeCastMap() {
@@ -49,13 +46,13 @@ class CastMedia {
         'autoPlay': autoPlay,
         'currentTime': position,
         'playbackRate': playbackRate,
-        'activeTracks': [],
+        'activeTracks': activeTrackIds,
         'media': {
           'contentId': contentId,
           'contentType': contentType,
           'streamType': 'BUFFERED',
           'tracks': CastMediaTrack.listToChromeCastMap(tracks!),
-          "textTrackStyle": textTrackStyle.toChromeCastMap(),
+          "textTrackStyle": textTrackStyle?.toChromeCastMap()?? CastMediaTextTrackStyle(),
           'metadata': {
             'metadataType': 0,
             'images': images?.map((image) => {'url': image}).toList(),
