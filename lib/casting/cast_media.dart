@@ -54,7 +54,7 @@ class CastMedia {
           'tracks': CastMediaTrack.listToChromeCastMap(tracks!),
           "textTrackStyle": textTrackStyle?.toChromeCastMap()?? CastMediaTextTrackStyle(),
           'metadata': {
-            'metadataType': 0,
+            'metadataType': 1,
             'images': images?.map((image) => {'url': image}).toList(),
             'title': title,
             'subtitle': subtitle,
